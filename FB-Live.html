@@ -1,0 +1,142 @@
+    <title>Session Booking Form</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: Arial, sans-serif;
+      }
+      form {
+        margin: auto;
+        padding: 20px;
+        max-width: 500px;
+        display: grid;
+        grid-gap: 10px;
+      }
+      .red-outline:focus {
+        outline: 2px solid red;
+      }
+      input,
+      select {
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        font-size: 16px;
+        outline: none;
+      }
+      input[type="submit"] {
+        background-color: #4caf50;
+        color: white;
+        cursor: pointer;
+        transition: background-color 0.3s;
+      }
+      /* input[type="submit"]:hover {
+        background-color: #3e8e41;
+      } */
+      select {
+        appearance: none;
+        -webkit-appearance: none;
+        background-color: #fff;
+        background-image: url("https://icon-library.com/images/dropdown-arrow-icon/dropdown-arrow-icon-11.jpg");
+        background-size: 0.2em;
+        /* background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M81.1 213.9l74.8 74.8c4.7 4.7 12.3 4.7 17 0l74.8-74.8c4.7-4.7 4.7-12.3 0-17l-9.9-9.9c-4.7-4.7-12.3-4.7-17 0L256 251.2l-51.8-51.8c-4.7-4.7-12.3-4.7-17 0l-9.9 9.9c-4.7 4.7-4.7 12.3 0 17zM400 192h-96c-8.8 0-16 7.2-16 16v96c0 8.8 7.2 16 16 16h96c8.8 0 16-7.2 16-16v-96c0-8.8-7.2-16-16-16z"></path></svg>'); */
+        background-repeat: no-repeat;
+        background-position: 97%;
+        background-size: 18px;
+        padding-right: 30px;
+      }
+      .name {
+        background-image: url(https://go.kewalkishan.com/images/name2.png);
+        background-repeat: no-repeat;
+        background-position: 97%;
+      }
+      .email {
+        background-image: url(https://go.kewalkishan.com/images/email2.png);
+        background-repeat: no-repeat;
+        background-position: 97%;
+      }
+      .phone {
+        background-image: url(https://go.kewalkishan.com/images/phone2.png);
+        background-repeat: no-repeat;
+        background-position: 97%;
+      }
+    </style>
+    <form method="post" name="google-sheet">
+      <input type="text" placeholder="Name" name="name" class="name" required />
+      <input
+        type="email"
+        placeholder="Email"
+        name="email"
+        class="email"
+        required
+      />
+      <input
+        type="tel"
+        required
+        pattern="[0-9]{10}"
+        placeholder="10 Digit Mobile Number"
+        name="phone"
+        class="phone"
+        oninvalid="this.setCustomValidity('Please enter a 10-digit phone number')"
+        oninput="this.setCustomValidity('')"
+      />
+      <input type="submit" value="Submit" id="submit_button" />
+    </form>
+    <script>
+      const scriptURL =
+        "https://connect.pabbly.com/workflow/sendwebhookdata/IjU3NjUwNTY0MDYzMTA0M2Q1MjY4NTUzNDUxMzci_pc";
+      const form = document.forms["google-sheet"];
+      form.addEventListener("submit", (e) => {
+        e.preventDefault();
+        document.querySelector("#submit_button").disabled = true;
+        var urlParams = new URLSearchParams(window.location.search);
+        var utm_source = urlParams.get("utm_source");
+        var utm_medium = urlParams.get("utm_medium");
+        var utm_campaign = urlParams.get("utm_campaign");
+        var utm_adgroup = urlParams.get("utm_adgroup");
+        var utm_content = urlParams.get("utm_content");
+        var utm_term = urlParams.get("utm_term");
+        var adsetname = urlParams.get("adset name");
+        var adname = urlParams.get("ad name");
+        var packageType = "Free Leads FB";
+        var postData = {
+          name: e.target.name.value,
+          email: e.target.email.value,
+          phone: e.target.phone.value,
+          utm_source: utm_source,
+          utm_medium: utm_medium,
+          utm_campaign: utm_campaign,
+          utm_adgroup: utm_adgroup,
+          utm_term: utm_term,
+          utm_content: utm_content,
+          adsetname: adsetname,
+          adname: adname,
+          packageType: packageType,
+        };
+        var formData = new FormData();
+        formData.append("name", e.target.name.value);
+        formData.append("email", e.target.email.value);
+        formData.append("phone", e.target.phone.value);
+        formData.append("utm_source", utm_source);
+        formData.append("utm_medium", utm_medium);
+        formData.append("utm_content", utm_content);
+        formData.append("utm_adgroup", utm_adgroup);
+        formData.append("utm_term", utm_term);
+        formData.append("utm_campaign", utm_campaign);
+        formData.append("adsetname", adsetname);
+        formData.append("adname", adname);
+        formData.append("packageType", packageType);
+        const url = "https://sombathla.clickfunnels.com/2024typ";
+        fetch(scriptURL, {
+          method: "POST",
+          body: formData,
+        })
+          .then((response) => {
+            response.json();
+            window.location.href = url;
+          })
+          .catch((error) => {
+            alert("Error occured, please try again...");
+            console.error("Error!", error.message);
+          });
+      });
+    </script>
